@@ -6,12 +6,15 @@ describe("Auth features", () => {
 
     test('login and logout', async () => {
         await page.goto(process.env.TESTED_WEBSITE);
-        await page.waitForSelector('my_login_selector');
-        await page.type('my_login_selector', process.env.TEST_LOGIN);
-        await page.type('my_password_selector', process.env.TEST_PASSWORD);
+        await page.waitForSelector('#login-button');
+        await page.type('#user-name', process.env.TEST_LOGIN);
+        await page.type('#password', process.env.TEST_PASSWORD);
 
-        // à compléter
+        await page.click('#login-button');
+        await page.waitForSelector('#header_container > div.header_secondary_container');
+        const html = await page.$eval('#header_container > div.header_secondary_container', e => e.innerHTML);
 
+        expect(html).toContain("<div class=\"peek\"></div>")
     }, timeout);
 
     // cette fonction est lancée avant chaque test de cette
